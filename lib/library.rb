@@ -27,4 +27,17 @@ class Library
     years.sort!
     {start: years.first.to_s, end: years.last.to_s}
   end
+
+  def checkout(book)
+    if @books.include?(book)
+      if book.checked_out? == false
+        book.check_out
+        return true
+      else book.checked_out? == true
+        false
+      end
+    else
+      false
+    end
+  end
 end
