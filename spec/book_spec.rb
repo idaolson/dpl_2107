@@ -31,5 +31,10 @@ RSpec.describe Book do
       book.check_out
       expect(book.checked_out?).to be(true)
     end
+
+    it "changes book status to checked in" do
+      book.check_in
+      expect(book.checked_out?).to be(false)
+    end
   end
 end

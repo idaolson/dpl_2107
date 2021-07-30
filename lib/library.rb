@@ -1,12 +1,14 @@
 class Library
   attr_reader :name,
               :books,
-              :authors
+              :authors,
+              :checked_out_books
 
   def initialize(name)
     @name = name
     @books = []
     @authors = []
+    @checked_out_books = []
   end
 
   def add_author(author)
@@ -39,5 +41,23 @@ class Library
     else
       false
     end
+  end
+
+  def checked_out_books
+    @books.each do |book|
+      if book.checked_out? == true
+        @checked_out_books << book
+      end
+    end
+    @checked_out_books
+  end
+
+  def return(book)
+    book.check_in
+    @checked_out_books.delete(book)
+  end
+
+  def most_popular_book
+    @books.max_by { |book| book.circ_count}
   end
 end

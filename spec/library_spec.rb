@@ -58,57 +58,27 @@ RSpec.describe Library do
       dpl.add_author(harper_lee)
       expect(dpl.checkout(jane_eyre)).to be(true)
     end
+
+    it "returns an array of currently checked out books" do
+      expect(dpl.checked_out_books).to eq([jane_eyre])
+    end
+
+    it "changes a book to be no longer checked out" do
+      expect(dpl.checkout(jane_eyre)).to be(false)
+      dpl.return(jane_eyre)
+      expect(dpl.checked_out_books).to eq([])
+      expect(dpl.checkout(jane_eyre)).to be(true)
+      expect(dpl.checkout(villette)).to be(true)
+      expect(dpl.checked_out_books).to eq([jane_eyre, villette])
+    end
+
+    it "tracks the most checked out book" do
+      expect(dpl.checkout(mockingbird)).to be(true)
+      dpl.return(mockingbird)
+      expect(dpl.checkout(mockingbird)).to be(true)
+      dpl.return(mockingbird)
+      expect(dpl.checkout(mockingbird)).to be(true)
+      expect(dpl.most_popular_book).to eq(mockingbird)
+    end
   end
 end
-
-# Ran out of time :(
-
-
-# The `checked_out_books` method should return an array
-# of books that are currently checked out.
-#
-# The `return` method takes a `Book` as an argument.
-# Calling this method means that a book is no longer
-# checked out.
-#
-# The `most_popular_book` method should return the book
-# that has been checked out the most.
-
-# dpl.checked_out_books
-# #=> [#<Book:0x00007f8c01433138...>]
-#
-# # This book cannot be checked out because it is currently checked out
-# dpl.checkout(jane_eyre)
-# #=> false
-#
-# dpl.return(jane_eyre)
-#
-# # Returning a book means it should no longer be checked out
-# dpl.checked_out_books
-# #=> []
-#
-# dpl.checkout(jane_eyre)
-# #=> true
-#
-# dpl.checkout(villette)
-# #=> true
-#
-# dpl.checked_out_books
-# #=> [#<Book:0x00007f8c01433138...>, #<Book:0x00007f8c021d84c8...>]
-#
-# dpl.checkout(mockingbird)
-# #=> true
-#
-# dpl.return(mockingbird)
-#
-# dpl.checkout(mockingbird)
-# #=> true
-#
-# dpl.return(mockingbird)
-#
-# dpl.checkout(mockingbird)
-# #=> true
-#
-# dpl.most_popular_book
-# #=> #<Book:0x00007f8c019506c0...>
-# ```
